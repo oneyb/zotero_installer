@@ -20,12 +20,13 @@
 # along with qnotero.  If not, see <http://www.gnu.org/licenses/>.
 
 VERSION="5.0.70"
-if [ `uname -m` == "x86_64" ]; then
+if [ $(uname -m) == "x86_64" ]; then
 	ARCH="x86_64"
-  VERSION_SHA256_HASH=7cb871894f1de168c0e486d2d48fc8524d23453198a2b834c23d958abd63443d
-else
+  VERSION_SHA256_HASH=85d8dfccf5534810602577410528aac4d02469d02dd612fb366a796fa08efb68
+
+elif [ $(uname -m) == "i686" ]; then
 	ARCH="i686"
-  VERSION_SHA256_HASH=24f66641bc0bebc9e7e1414bdb03050e6fde7d6939307b17afc3d1f349d5646d
+  VERSION_SHA256_HASH=4940283326046dc98c690219c29d62864f58826c00b28a4b406f99f1a28d5982
 fi
 TMP="/tmp/zotero.tar.bz2"
 DEST_FOLDER=zotero
@@ -64,20 +65,14 @@ if [ "$INPUT" != "" ]; then
 	VERSION=$INPUT
 fi
 
-echo ">>> Please input your systems architecture (i686 or x86_64)."
-echo ">>> (default=$ARCH)"
-read INPUT
-if [ "$INPUT" != "" ]; then
-	ARCH=$INPUT
-fi
-
-URL="https://download.zotero.org/client/release/${VERSION}/Zotero-${VERSION}_linux-${ARCH}.tar.bz2"
-
+# URL="https://download.zotero.org/client/release/${VERSION}/Zotero-${VERSION}_linux-${ARCH}.tar.bz2"
+URL="https://www.zotero.org/download/client/dl?channel=release&platform=linux-${ARCH}&version=${VERSION}"
+ 
 echo ">>> Downloading Zotero standalone $VERSION for $ARCH"
 echo ">>> URL: $URL"
 
 [[ ! -f $TMP ]] && wget $URL -O $TMP
-if [ $? -ne 0 ]; then
+if [[ ! -f $TMP ]]; then
 	echo ">>> Failed to download Zotero"
 	echo ">>> Aborting installation, sorry!"
 	exit 1
