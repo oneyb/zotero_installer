@@ -71,7 +71,7 @@ URL="https://www.zotero.org/download/client/dl?channel=release&platform=linux-${
 echo ">>> Downloading Zotero standalone $VERSION for $ARCH"
 echo ">>> URL: $URL"
 
-[[ ! -f $TMP ]] && wget $URL -O $TMP
+[ ! -f $TMP ] && wget "$URL" -O $TMP
 if [[ ! -f $TMP ]]; then
 	echo ">>> Failed to download Zotero"
 	echo ">>> Aborting installation, sorry!"
